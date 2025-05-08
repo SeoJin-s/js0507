@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript">
+const product = {
+		name: '망고',
+		type: '당절임',
+		madein: '필리핀',
+		print: function() {	// 함수, 메소드 다 사용가능
+			alert(this.name);
+		},
+		show : () => {	// 함수를 만들때만 사용
+			alert('show:' + this.name);
+		},
+		printType(){	// 메소드 문법 // printType : function(){...} 이거랑 같다.
+			alert(this.type);
+		}
+	};
+
+	product.print();
+	product.show();	// show 는 함수이기때문에 show 안에 this가 . 앞에 product를 가리키지 않는다.
+	
+</script>
+</body>
+</html>
