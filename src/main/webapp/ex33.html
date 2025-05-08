@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <h1></h1>
+  <h1></h1>
+  <h1></h1>
+  <h1></h1>
+  <h1></h1>
+  <h1></h1>
+  <h1></h1>
+
+  <script>
+  // 무지개
+    const colors = ['red', 'orange', 'yellow', 'green', 'blue','navy', 'purple'];
+    const h1s = document.querySelectorAll('h1');
+
+    
+    colors.sort(() => Math.random() - 0.5);
+
+    h1s.forEach((h1, i) => {
+      h1.textContent = '안녕하쎄요';
+      h1.style.color = '#fff';
+      h1.style.backgroundColor = colors[i];
+      h1.style.padding = '10px';
+    });
+    
+    // 두가지 방법
+    
+    /*
+    const t1List = document.querySelectorAll('h1');
+
+    // 무지개 색상 배열 (일반적으로 알려진 7가지)
+    const rainbowColors = [
+      'red',
+      'orange',
+      'yellow',
+      'green',
+      'blue',
+      'navy',
+      'purple'
+    ];
+
+    // 색상을 무작위로 섞는 함수
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // 색상 섞기
+    const shuffledColors = shuffle([...rainbowColors]);
+
+    t1List.forEach(function(item, index) {
+      item.textContent = '안녕하세요';
+      item.style.color = '#fff';
+      item.style.backgroundColor = shuffledColors[index];
+      item.style.padding = '10px';
+    });
+    */
+  </script>
+</body>
+</html>

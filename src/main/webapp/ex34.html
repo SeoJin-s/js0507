@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>산수 문제 앱</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --accent: #3cba54;
+      --bg: #f9f9fb;
+      --dark: #222;
+      --gray: #999;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      font-family: 'Pretendard', 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      transition: background 0.4s ease;
+    }
+
+    .app {
+      max-width: 380px;
+      width: 90%;
+      padding: 24px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .problem-card {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .problem-label {
+      font-size: 16px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .problem-text {
+      font-size: 28px;
+      font-weight: 800;
+      color: #2d3436;
+    }
+
+    .problem-text .op {
+      font-weight: 400;
+      margin: 0 8px;
+      color: #666;
+    }
+
+    #answerInput {
+      width: 100%;
+      font-size: 22px;
+      font-weight: bold;
+      padding: 16px;
+      margin-bottom: 16px;
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      background: #fafafa;
+    }
+
+    #result {
+      height: 24px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--dark);
+      margin-bottom: 20px;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .keypad button {
+      padding: 18px 0;
+      font-size: 18px;
+      font-weight: 600;
+      border: none;
+      border-radius: 14px;
+      background: #f1f2f4;
+      color: #222;
+      transition: all 0.2s;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,0.04);
+      cursor: pointer;
+    }
+
+    .keypad button:hover {
+      background: #e5e5e5;
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: white;
+      grid-column: span 3;
+    }
+
+    .btn-accent:hover {
+      background: #2e9b43;
+    }
+
+    @keyframes pop-scale {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes flash-green {
+      0% { background: var(--bg); }
+      50% { background: #d4fdd4; }
+      100% { background: var(--bg); }
+    }
+
+    .animate-pop {
+      animation: pop-scale 0.4s ease;
+    }
+
+    .flash-bg {
+      animation: flash-green 0.6s ease;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <div id="problem" class="problem-card">
+    <div class="problem-label">문제</div>
+    <div id="problem-text" class="problem-text">0 + 0 = ?</div>
+  </div>
+  <input type="text" id="answerInput" placeholder="정답을 입력하세요">
+  <div id="result"></div>
+
+  <div class="keypad">
+    <button onclick="generateProblem()">🎲</button>
+    <button onclick="appendValue('-')">-</button>
+    <button onclick="appendValue('+')">+</button>
+    <button onclick="appendValue('7')">7</button>
+    <button onclick="appendValue('8')">8</button>
+    <button onclick="appendValue('9')">9</button>
+    <button onclick="appendValue('4')">4</button>
+    <button onclick="appendValue('5')">5</button>
+    <button onclick="appendValue('6')">6</button>
+    <button onclick="appendValue('1')">1</button>
+    <button onclick="appendValue('2')">2</button>
+    <button onclick="appendValue('3')">3</button>
+    <button onclick="appendValue('0')">0</button>
+    <button onclick="deleteLast()">⌫</button>
+    <button class="btn-accent" onclick="checkAnswer()">✅ 제출</button>
+  </div>
+</div>
+
+<script>
+  let num1, num2, op, correct;
+	// 문제 생성
+  function generateProblem() {
+    num1 = Math.floor(Math.random() * 200);
+    num2 = Math.floor(Math.random() * 200);
+	// 연산자
+    const operators = ['+', '-'];
+    op = operators[Math.floor(Math.random() * operators.length)];
+    // 정답 계산
+    correct = op === '+' ? num1 + num2 : num1 - num2;
+    // 문제 출력
+    const problemText = document.getElementById('problem-text');
+    problemText.innerHTML = `<strong>${num1}</strong> <span class="op">${op}</span> <strong>${num2}</strong> = ?`;
+	// 초기화
+    document.getElementById('answerInput').value = '';
+    document.getElementById('result').textContent = '';
+  }
+    // 버튼클릭
+  function appendValue(val) {
+    document.getElementById('answerInput').value += val;
+  }
+    //삭제
+  function deleteLast() {
+    const input = document.getElementById('answerInput');
+    input.value = input.value.slice(0, -1);
+  }
+	//정답 확인
+  function checkAnswer() {
+    const userAnswer = Number(document.getElementById('answerInput').value);
+    const result = document.getElementById('result');
+    const problem = document.getElementById('problem');
+	// 정답
+    if (userAnswer === correct) {
+      result.textContent = '🎉 정답입니다!';
+      result.style.color = '#2ecc71';
+   	// 애니메이션 효과
+      problem.classList.remove('animate-pop');
+      void problem.offsetWidth;
+      problem.classList.add('animate-pop');
+	// 깜빡이
+      document.body.classList.remove('flash-bg');
+      void document.body.offsetWidth;
+      document.body.classList.add('flash-bg');
+	//오답
+    } else {
+      result.textContent = `❌ 땡! 정답은 ${correct}`;
+      result.style.color = '#e74c3c';
+    }
+  }
+	//페이지 로드 시 자동으로 문제 생성
+  generateProblem();
+</script>
+
+</body>
+</html>
