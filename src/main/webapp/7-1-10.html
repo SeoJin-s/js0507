@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<hr>
+	
+	<div>
+	<h1 id="target">제거 대상</h1>
+	</div>
+	
+	<hr>
+	
+	<div>두번째 DIV 태그</div>
+	
+	<script type="text/javascript">
+		setTimeout(function() {
+			target.parentNode.removeChild(target);
+		}, 3000)
+	</script>
+</body>
+</html>
